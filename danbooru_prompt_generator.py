@@ -22,7 +22,7 @@ class DanbooruPromptGenerator:
                 "enable_quality": ("BOOLEAN", {"default": True}),
                 
                 # 2. 人物预设开关
-                "use_character_default": ("BOOLEAN", {"default": True}),
+                "character_default": ("BOOLEAN", {"default": True}),
                 
                 # 3. R18标签开关
                 "enable_r18": ("BOOLEAN", {"default": False}),
@@ -45,6 +45,9 @@ class DanbooruPromptGenerator:
                 # 9. Effects模块开关
                 "enable_effects": ("BOOLEAN", {"default": True}),
                 
+                # 10.负面提示词模块
+                "enable_negative": ("BOOLEAN", {"default": True}),
+
                 # ==================== 自定义输入区 (全部放在一起) ====================
                 
                 # 1. 质量词自定义输入
@@ -58,7 +61,7 @@ class DanbooruPromptGenerator:
                 "custom_character": ("STRING", {
                     "multiline": True, 
                     "default": "yousa\nred eyes\nblack hair\n(DMB_hair:1.1)",
-                    "placeholder": "关闭use_character_default时输入自定义人物标签\n 默认yousa, red eyes, "(DMB_hair:1.1),""
+                    "placeholder": "关闭character_default时输入自定义人物标签\n 默认yousa, red eyes, (DMB_hair:1.1)"
                 }),
                 
                 # 3. R18标签自定义输入
@@ -108,12 +111,18 @@ class DanbooruPromptGenerator:
                     "default": "",
                     "placeholder": "关闭enable_effects时输入自定义效果标签\n例如：watercolor (medium)\ncinematic lighting\nbokeh"
                 }),
+                # 负面提示词模块自定义输入
+                "custom_negative": ("STRING", {
+                    "multiline": True, 
+                    "default": "",
+                    "placeholder": "关闭enable_negative时输入自定义负面提示词\n例如：low quality\nworst quality\nbad anatomy"
+                }),
 
             },
         }
 
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("prompt",)
+    RETURN_TYPES = ("STRING", "STRING")
+    RETURN_NAMES = ("prompt", "negative_prompt")
     
     FUNCTION = "generate_prompt"
     
@@ -378,7 +387,7 @@ class DanbooruPromptGenerator:
     ]
     # ==================== 特效模块 ====================
     EFFECTS_POOL = [
-    # === 艺术风格/媒介 (来自 styles.txt) - 68个 ===
+    # === 艺术风格/媒介 ===
     "abstract", "acrylic paint (medium)", "airbrush (medium)", "alphonse mucha", 
     "amigurumi (medium)", "art deco", "art nouveau", "ballpoint pen (medium)", 
     "book cover (medium)", "brush (medium)", "brushpen (medium)", 
@@ -400,7 +409,7 @@ class DanbooruPromptGenerator:
     "traditional media", "ukiyo-e", "variations", "washi tape (medium)", 
     "watercolor (medium)", "watercolor pencil (medium)", "whiteboard (medium)",
     
-    # === 视觉效果/镜头效果 (来自 effects.txt) - 64个 ===
+    # === 视觉效果/镜头效果 ===
     "chromatic aberration", "lens flare", "motion blur", "sparkle", 
     "cinematic lighting", "glowing light", "god rays", "ray tracing", 
     "reflection light", "overexposure", "backlighting", "blending", 
@@ -416,6 +425,26 @@ class DanbooruPromptGenerator:
     "vanishing point", "wide shot", "from above", "from behind", 
     "from below", "from outside", "from side", "atmospheric perspective", 
     "panorama", "perspective", "rotated", "sideways", "upside-down"
+    ]
+
+    # ==================== 负面提示词池 ====================
+    NEGATIVE_POOL = [
+    # === 基础质量负面词 ===
+    "low quality", "worst quality", "bad quality", "poor quality",
+    "jpeg artifacts", "signature", "watermark", "text", "error",
+    
+    # === 人物/身体负面词 ===
+    "bad anatomy", "bad hands", "missing fingers", "extra limbs",
+    "mutated hands", "poorly drawn hands", "poorly drawn face",
+    "mutation", "deformed", "disfigured", "ugly", "blurry",
+    
+    # === 画面/构图负面词 ===
+    "out of frame", "cropped", "worst quality", "lowres",
+    "bad proportions", "clumsy", "morning light", "flat color",
+    
+    # === 其他常见负面词 ===
+    "duplicate", "morning", "brave", "monochrome", "gradient",
+    "hand drawn", "3d", "anime", "cartoon", "illustration"
     ]
     
     def parse_text_list(self, text: str) -> List[str]:
@@ -455,7 +484,7 @@ class DanbooruPromptGenerator:
                     seed: int,
                     # === 开关参数 ===
                     enable_quality: bool,
-                    use_character_default: bool,
+                    character_default: bool,
                     enable_r18: bool,
                     enable_clothes: bool,
                     enable_actions: bool,
@@ -463,6 +492,7 @@ class DanbooruPromptGenerator:
                     enable_indoors: bool,
                     enable_weather: bool,
                     enable_effects: bool,
+                    enable_negative: bool,
 
                     # === 自定义输入参数 ===
                     custom_quality: str,
@@ -472,14 +502,14 @@ class DanbooruPromptGenerator:
                     custom_actions: str,
                     custom_outdoors: str,
                     custom_indoors: str,
-                    # 天气模块 - 合并为一个统一的自定义输入
                     custom_weather_time: str,
-                    # Effects模块自定义输入（新增）
-                    custom_effects: str) -> Tuple[str]:
+                    custom_effects: str,
+                    custom_negative: str) -> Tuple[str, str]:
 
         
         rng = random.Random(seed)
         prompt_parts = []
+        negative_prompt_parts = []
         
         # ==================== 1. 质量词模块 (新增) ====================
         if enable_quality:
@@ -492,7 +522,7 @@ class DanbooruPromptGenerator:
                 prompt_parts.extend(rng.sample(custom_list, count))
         
         # ==================== 2. 人物预设模块 ====================
-        if use_character_default:
+        if character_default:
             character_tags = self.CHARACTER_DEFAULT.copy()
         else:
             character_tags = self.parse_text_list(custom_character)
@@ -571,11 +601,22 @@ class DanbooruPromptGenerator:
                 count = min(rng.randint(4, 6), len(custom_list))
                 prompt_parts.extend(rng.sample(custom_list, count))
 
+        # ==================== 负面提示词模块处理逻辑 ====================
+        if enable_negative:
+            selected = self.smart_select(self.NEGATIVE_POOL, 4, 6, rng)
+            negative_prompt_parts.extend(selected)
+        else:
+            custom_list = self.parse_text_list(custom_negative)
+            if custom_list:
+                count = min(rng.randint(4, 6), len(custom_list))
+                negative_prompt_parts.extend(rng.sample(custom_list, count))
+
         
         # ==================== 组合最终提示词 ====================
         final_prompt = ", ".join(prompt_parts)
+        final_negative_prompt = ", ".join(negative_prompt_parts)
         
-        return (final_prompt,)
+        return (final_prompt, final_negative_prompt,)
 
 
 # ComfyUI 注册信息
