@@ -392,7 +392,7 @@ class DanbooruPromptGenerator:
     "chalk (medium)", "charcoal (medium)", "clay (medium)", "color ink (medium)", 
     "color trace", "colored pencil (medium)", "cosplay", "coupy pencil (medium)", 
     "crayon (medium)", "cursor (medium)", "cyberpunk", "dakimakura (medium)", 
-    "disc (medium)", "expression chart", "faux figurine", "faux traditional media", 
+    "disc (medium)", "faux figurine", "faux traditional media", 
     "fine art parody", "flame painter", "flat color", "fourth wall", 
     "fudepen (medium)", "g-pen (medium)", "google sketchup (medium)", 
     "gouache (medium)", "graffiti (medium)", "graphite (medium)", 
