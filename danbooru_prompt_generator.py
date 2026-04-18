@@ -403,7 +403,7 @@ class DanbooruPromptGenerator:
     "pastel color", "pen (medium)", "photorealistic", "porcelain (medium)", 
     "print (medium)", "realistic", "retro artstyle", "style parody", "sumi-e", 
     "surreal", "swapnote (medium)", "tempera (medium)", "theatre (medium)", 
-    "traditional media", "ukiyo-e", "variations", "washi tape (medium)", 
+    "traditional media", "ukiyo-e", "washi tape (medium)", 
     "watercolor (medium)", "watercolor pencil (medium)", "whiteboard (medium)",
     
     # === 视觉效果/镜头效果 ===
@@ -416,7 +416,7 @@ class DanbooruPromptGenerator:
     "motion lines", "multiple monochrome", "optical illusion", "anaglyph", 
     "stereogram", "scanlines", "silhouette", "speed lines", "vignetting", 
     "first-person view", "pov",  
-    "cut-in", "between fingers", "between legs", "between thighs", 
+    "between fingers", "between legs", "between thighs", 
     "blurry foreground", "breast conscious", "breast awe", "close-up", 
     "cowboy shot", "dutch angle", "fisheye",
     "vanishing point", "wide shot", "from above", "from behind", 
