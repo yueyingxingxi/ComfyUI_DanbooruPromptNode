@@ -302,7 +302,7 @@ class DanbooruPromptGenerator:
         "two-finger salute","\\m/","middle w","money gesture","\\||/",
         "open hand","ohikaenasutte","spread fingers","straight-arm salute",
         "vulcan salute","clenched hand","fig sign","power fist","raised fist",
-        "stroking own chin","cunnilingus gesture","fellatio gesture","handjob gesture",
+        "stroking own chin",
         "hat tip","shocker (gesture)","v over mouth","w","air guitar","curtsey",
         "heart tail","kuji-in","shrugging","toe-point",
         "victory pose","orchid fingers","holding flower","smelling flower",
