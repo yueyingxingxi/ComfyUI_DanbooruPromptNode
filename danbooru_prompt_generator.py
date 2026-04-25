@@ -171,7 +171,7 @@ class DanbooruPromptGenerator:
         "body writing","asian","faceless male","artificial vagina","dildo",
         "sex","clothed sex","happy sex","underwater sex","cock in thighhigh",
         "doggystyle","leg lock","missionary","girl on top","cowgirl position",
-        "reverse cowgirl","virgin","threesome","group sex","tribadism",
+        "reverse cowgirl","virgin","threesome","gro sex","tribadism",
         "gangbang","femdom","condom","bandaid on pussy","cleft of venus",
         "clitoral hood","clitoris piercing","perineum","urethra","crotch seam",
         "erect clitoris","overflow","overgrown","flat ass","gaping","labia",
@@ -310,7 +310,7 @@ class DanbooruPromptGenerator:
         "bent over","crossed legs","fetal position","fighting stance",
         "hugging own legs","indian style","kneeling","leaning forward","leg lift",
         "legs up","lying","on stomach","princess carry","seiza","sitting",
-        "spread legs","squatting","top-down bottom-up","wariza","yokozuwari",
+        "spread legs","squatting",,"wariza","yokozuwari",
         "zombie pose","humpbacked","back-to-back","head back","bowing","leaning",
         "leaning back","leaning to the side","on back","on side","reclining",
         "sitting on lap","straddling","the pose","head rest","head tilt",
@@ -421,7 +421,7 @@ class DanbooruPromptGenerator:
     "cowboy shot", "dutch angle", "fisheye",
     "vanishing point", "wide shot", "from above", "from behind", 
     "from below", "from outside", "from side", "atmospheric perspective", 
-    "panorama", "perspective", "rotated", "sideways", "upside-down"
+    "panorama", "perspective", "rotated", "sideways",
     ]
 
     # ==================== 负面提示词池 ====================
