@@ -270,7 +270,7 @@ class DanbooruPromptGenerator:
         "kimono lift","kimono pull","skirt lift","shared food","adjusting hair",
         "adjusting legwear","adjusting panties","arm grab","arm held back",
         "armpit peek","arms at sides","beckoning",
-        "belly grab","bikini pull","skirt pull","caressing testicles",
+        "belly grab","bikini pull","skirt pull",
         "carrying over shoulder","carrying under arm","paw pose","claw pose",
         "clothes lift","clothes pull","bunching hair","convenient arm",
         "convenient head","convenient leg","crossed arms","dress lift",
