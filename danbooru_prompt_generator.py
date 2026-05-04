@@ -421,7 +421,9 @@ class DanbooruPromptGenerator:
     "cowboy shot", "dutch angle", "fisheye",
     "vanishing point", "wide shot", "from above", "from behind", 
     "from below", "from outside", "from side", "atmospheric perspective", 
-    "panorama", "perspective", "rotated", "sideways",
+    "panorama", "perspective", "rotated", "sideways","dark theme",
+    "green theme","orange theme","blue theme","purple theme","pink theme",
+    "cyan theme",
     ]
 
     # ==================== 负面提示词池 ====================
