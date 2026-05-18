@@ -60,8 +60,8 @@ class DanbooruPromptGenerator:
                 # 2. 人物预设自定义输入
                 "custom_character": ("STRING", {
                     "multiline": True, 
-                    "default": "yousa\nred eyes\nblack hair\n(DMB_hair:1.1)",
-                    "placeholder": "关闭character_default时输入自定义人物标签\n默认yousa, 1girl solo, red eyes, (DMB_hair:1.1), looking at viewer"
+                    "default": "yousa,red eyes,black short hair,(DMB_hair:1.1),looking at viewer,",
+                    "placeholder": "关闭character_default时输入自定义人物标签\n默认yousa,red eyes,black short hair,(DMB_hair:1.1), looking at viewer"
                 }),
                 
                 # 3. R18标签自定义输入
@@ -156,7 +156,7 @@ class DanbooruPromptGenerator:
     ]
     
     # === 人物预设 (默认) ===
-    CHARACTER_DEFAULT = ["yousa", "1girl", "solo", "red eyes", "black hair", "(DMB_hair:1.1)", "looking at viewer"]
+    CHARACTER_DEFAULT = ["yousa", "1girl", "solo", "red eyes", "black short hair", "(DMB_hair:1.1)", "looking at viewer"]
     
     # === R18标签池  ===
     R18_POOL = [
